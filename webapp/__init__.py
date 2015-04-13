@@ -1,6 +1,7 @@
 from flask import Flask
  
 app = Flask(__name__)
+app.secret_key = 'development key'
 
 # Tells Flask to use the database 'development'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mysqlpw@localhost/development'
