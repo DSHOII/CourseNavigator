@@ -1,0 +1,61 @@
+{% extends "main.html" %}
+ 
+{% block content %}
+
+<!-- Sign up page with Twitter Bootstrap.
+     Not connected to any form or database -->
+
+   <h3>Sign up page (Bootstrap)</h3>
+
+<form class="form-horizontal" role="form" action="{{url_for('signup')}}" method="POST">
+    {{ form.hidden_tag() }}
+
+  <!-- Firstname -->
+  <div class="form-group {% if form.firstname.errors %} has-error {% endif %}">
+    <label class="control-label col-sm-4" for="firstname"> {{ form.firstname.label() }} </label>
+    <div class="col-sm-4">
+      {{ form.firstname(placeholder="Enter your first name", class="form-control") }}
+    </div>
+    <p class="col-sm-4 help-block">
+    {{ form.firstname.errors[0] }}
+  </div>
+
+  <!-- Lastname -->
+  <div class="form-group {% if form.lastname.errors %} has-error {% endif %}">
+    <label class="control-label col-sm-4" for="lastname"> {{ form.lastname.label() }} </label>
+    <div class="col-sm-4">
+      {{ form.lastname(placeholder="Enter your last name", class="form-control") }}
+    </div>
+    <p class="col-sm-4 help-block">
+    {{ form.lastname.errors[0] }}
+  </div>
+
+  <!-- Email -->
+  <div class="form-group {% if form.email.errors %} has-error {% endif %}">
+    <label class="control-label col-sm-4" for="email"> {{ form.email.label() }} </label>
+    <div class="col-sm-4">
+      {{ form.email(placeholder="Enter your email", class="form-control") }}
+    </div>
+    <p class="col-sm-4 help-block">
+    {{ form.email.errors[0] }}
+  </div>
+
+  <!-- Password --> 
+  <div class="form-group {% if form.password.errors %} has-error {% endif %}">
+    <label class="control-label col-sm-4" for="pwd"> {{ form.password.label() }} </label>
+    <div class="col-sm-4">
+      {{ form.password(placeholder="Enter a password", class="form-control") }}
+    </div>
+    <p class="col-sm-4 help-block">
+    {{ form.password.errors[0] }}
+  </div>
+
+  <!-- submit button -->
+  <div class="form-group">
+    <div class="col-sm-offset-4 col-sm-8">
+      <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </div>
+</form>
+        
+{% endblock %}

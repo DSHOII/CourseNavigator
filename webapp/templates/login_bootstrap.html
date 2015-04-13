@@ -1,0 +1,40 @@
+{% extends "main.html" %}
+ 
+{% block content %}
+<!-- Log in page with Twitter Bootstrap.
+     Not connected to a database. -->
+
+   <h3>Log in page (Bootstrap)</h3>
+
+<form class="form-horizontal" role="form" action="{{url_for('login')}}" method="POST">
+    {{ form.hidden_tag() }}
+
+  <!-- Email -->
+  <div class="form-group {% if form.email.errors %} has-error {% endif %}">
+    <label class="control-label col-sm-4" for="email"> {{ form.email.label() }} </label>
+    <div class="col-sm-4">
+      {{ form.email(placeholder="Enter your email", class="form-control") }}
+    </div>
+    <p class="col-sm-4 help-block">
+    {{ form.email.errors[0] }}
+  </div>
+
+  <!-- Password --> 
+  <div class="form-group {% if form.password.errors %} has-error {% endif %}">
+    <label class="control-label col-sm-4" for="pwd"> {{ form.password.label() }} </label>
+    <div class="col-sm-4">
+      {{ form.password(placeholder="Enter a password", class="form-control") }}
+    </div>
+    <p class="col-sm-4 help-block">
+    {{ form.password.errors[0] }}
+  </div>
+
+  <!-- submit button -->
+  <div class="form-group">
+    <div class="col-sm-offset-4 col-sm-8">
+      <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </div>
+</form>
+
+{% endblock %}

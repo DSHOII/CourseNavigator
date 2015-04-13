@@ -1,13 +1,14 @@
 from webapp import app
-from flask import Flask, render_template
+from flask import Flask, render_template, request, flash, session, url_for, redirect
+from forms import SignupForm, LoginForm
 
-from models import db
+from models import db, User
 
 # Mapping the URL / to the function home(). When someone visits / then home() will execute
 # home() is using the render_template function to render the template home.html
 @app.route('/')
 def landingpage():
-  return render_template('home.html')
+  return render_template('hometml')
 
 @app.route('/home')
 def home():
@@ -21,18 +22,60 @@ def about():
 def courses():
     return render_template('courses.html')
 
-@app.route('/signup')
-def signup():
-    return render_template('signup.html')
-
-@app.route('/login')
-def login():
-    return render_template('login.html')
-
-# Routing for testing if the database is working
-@app.route('/testdb')
-def testdb():
-  if db.session.query("1").from_statement("SELECT 1").all():
-    return 'It works.'
+@app.route('/profile')
+def profile():
+ 
+  if 'email' not in session:
+    return redirect(url_for('login'))
+ 
+  user = User.query.filter_by(email = session['email']).first()
+ 
+  if user is None:
+    return redirect(url_for('login'))
   else:
-    return 'Something is broken.'
+    return render_template('profile.html')
+
+# Sign up page logic
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+  form = SignupForm()
+   
+  if request.method == 'POST':
+    if form.validate() == False:
+      return render_template('signup_bootstrap.html', form=form)
+    else:
+        newuser = User(form.firstname.data, form.lastname.data, form.email.data, form.password.data)
+        db.session.add(newuser)
+        db.session.commit()
+        session['email'] = newuser.email
+        return redirect(url_for('profile'))
+   
+  elif request.method == 'GET':
+    return render_template('signup_bootstrap.html', form=form)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+  form = LoginForm()
+  
+  if 'email' in session:
+    return redirect(url_for('profile'))
+   
+  if request.method == 'POST':
+    if form.validate() == False:
+      return render_template('login_bootstrap.html', form=form)
+    else:
+      session['email'] = form.email.data
+      return redirect(url_for('profile'))
+                 
+  elif request.method == 'GET':
+    return render_template('login_bootstrap.html', form=form)
+
+@app.route('/signout')
+def signout():
+ 
+  if 'email' not in session:
+    return redirect(url_for('login'))
+     
+  session.pop('email', None)
+  return redirect(url_for('home'))
