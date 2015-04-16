@@ -8,7 +8,7 @@ from models import db, User
 # home() is using the render_template function to render the template home.html
 @app.route('/')
 def landingpage():
-  return render_template('hometml')
+  return render_template('home.html')
 
 @app.route('/home')
 def home():
