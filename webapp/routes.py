@@ -1,19 +1,27 @@
 from webapp import app
 from flask import Flask, render_template, request, flash, session, url_for, redirect
-from forms import SignupForm, LoginForm
+from forms import SignupForm, LoginForm, SearchForm
 
-from models import db, User
+from models import db, User, Courses
 
 # Mapping the URL / to the function home(). When someone visits / then home() will execute
 # home() is using the render_template function to render the template home.html
-@app.route('/')
-def landingpage():
-  return render_template('home.html')
-
-@app.route('/home')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/home',  methods=['GET', 'POST'])
 def home():
-    return render_template('home.html')
-
+    form = SearchForm()
+        
+    if request.method == 'GET':
+        return render_template('home.html', form=form)
+    elif request.method == 'POST':
+        #courses = Courses.query.filter_by(title = form.searchBar.data).all()
+        # The string manipulation is quite hacky (should use match-statement to fulltext query the database)
+        # The database should support fulltext search
+        courses = db.session.query(Courses).filter(Courses.title.like("%" + form.searchBar.data + "%")).all()
+        #courses = db.session.query(Courses).filter(Courses.title.match(form.searchBar.data)).all()
+        
+        return render_template('about.html', courses=courses)
+    
 @app.route('/about')
 def about():
     return render_template('about.html')
@@ -52,7 +60,6 @@ def signup():
    
   elif request.method == 'GET':
     return render_template('signup_bootstrap.html', form=form)
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

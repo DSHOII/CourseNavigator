@@ -1,5 +1,36 @@
 {% extends "main.html" %}
 
 {% block content %}
-   <p>Landing page / bobby olsen</p>
+   <h3>Landing page</h3>
+
+<!-- Search bar -->
+<!-- http://stackoverflow.com/questions/27491315/center-search-field-using-twitter-bootstrap -->
+<div class="featurette">
+   <div class="featurette-inner text-center">
+
+     <form role="form-inline" class="search" action="{{ url_for('home') }}" method="POST">
+        <h3 class="no-margin-top h3">Search for a course</h3>
+         <div class="input-group input-group-md">
+           {{ form.searchBar(placeholder="Enter a coursename", class="form-control") }}
+            <span class="input-group-btn">
+            <button class="btn btn-success" type="submit">Search</button>
+            </span>
+         </div>
+         <!-- /input-group -->
+      </form>
+      <!-- /.max-width on this form -->
+
+   </div>
+   <!-- /.featurette-inner (display:table-cell) -->
+</div>
+
 {% endblock %}
+
+    <!--
+<form class="form-horizontal" role="form" action="{{url_for('login')}}" method="POST">
+  <div class="form-group">
+    <div class="col-sm-4">
+      {{ form.searchBar(placeholder="Enter a password", class="form-control") }}
+    </div>
+</form>
+ -->

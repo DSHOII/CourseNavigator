@@ -1,17 +1,14 @@
-#from flask.ext.wtf import Form, TextField, TextAreaField, SubmitField, validators, ValidationError, PasswordField
-#from models import db, User
-
 from flask.ext.wtf import Form
 from wtforms.fields import TextField, TextAreaField, SubmitField, BooleanField, PasswordField
 from wtforms.validators import Required, ValidationError, Email
-from models import db, User
+from models import db, User, Courses
 
 class SignupForm(Form):
   firstname = TextField("First name",  [Required("Please enter your first name.")])
   lastname = TextField("Last name",  [Required("Please enter your last name.")])
   email = TextField("Email",  [Required("Please enter your email address."), Email("Please enter your email address.")])
   password = PasswordField('Password', [Required("Please enter a password.")])
-  submit = SubmitField("Create account")
+  submit = SubmitField()
  
   def __init__(self, *args, **kwargs):
     Form.__init__(self, *args, **kwargs)
@@ -30,7 +27,7 @@ class SignupForm(Form):
 class LoginForm(Form):
   email = TextField("Email",  [Required("Please enter your email address."), Email("Please enter your email address.")])
   password = PasswordField('Password', [Required("Please enter a password.")])
-  submit = SubmitField("Sign In")
+  submit = SubmitField()
    
   def __init__(self, *args, **kwargs):
     Form.__init__(self, *args, **kwargs)
@@ -45,4 +42,10 @@ class LoginForm(Form):
     else:
       self.email.errors.append("Invalid e-mail or password")
       return False
-  
+
+class SearchForm(Form):
+    searchBar = TextField("Search courses")
+    search = SubmitField()
+
+    def __init__(self, *args, **kwargs):
+        Form.__init__(self, *args, **kwargs)      

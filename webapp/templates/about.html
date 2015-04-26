@@ -1,5 +1,16 @@
 {% extends "main.html" %}
 
 {% block content %}
-  <p>About</p>
+  <h3>About + temporary display of search results</h3>
+
+{% if courses != [] %}
+
+   {% for course in courses %}
+      <p> {{ course.title }} - {{ course.placement }} </p>
+   {% endfor %}
+
+{% else %}
+   <p> No results </p>
+{% endif %}
+
 {% endblock %}
